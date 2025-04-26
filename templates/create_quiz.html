@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Quiz</title>
+    <style>
+        body { font-family: Arial; background: #f9f9f9; padding: 20px; }
+        form { background: white; padding: 20px; border-radius: 8px; width: 400px; margin: auto; }
+    </style>
+</head>
+<body>
+    <h2>Create Quiz</h2>
+    
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post">
+        Title: <input type="text" name="title" required><br><br>
+        Code: <input type="text" name="code" required><br><br>
+        <input type="submit" value="Create Quiz">
+    </form>
+</body>
+</html>

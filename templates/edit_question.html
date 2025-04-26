@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Question</title>
+</head>
+<body>
+    <h2>Edit Question</h2>
+    <form method="POST" enctype="multipart/form-data">
+        Question: <input type="text" name="question" value="{{ question.question }}"><br>
+        A: <input type="text" name="option_a" value="{{ question.option_a }}"><br>
+        B: <input type="text" name="option_b" value="{{ question.option_b }}"><br>
+        C: <input type="text" name="option_c" value="{{ question.option_c }}"><br>
+        D: <input type="text" name="option_d" value="{{ question.option_d }}"><br>
+        Correct Answer: <input type="text" name="correct" value="{{ question.correct }}"><br>
+        Image: <input type="file" name="image"><br>
+        {% if question.image_path %}
+            <img src="{{ url_for('static', filename=question.image_path.split('static/')[-1]) }}" width="200"><br>
+        {% endif %}
+        <input type="submit" value="Update">
+    </form>
+</body>
+</html>

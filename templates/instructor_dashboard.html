@@ -1,0 +1,38 @@
+<!-- templates/instructor_dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instructor Dashboard</title>
+    <style>
+        body { font-family: Arial; background: #e6f2ff; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; }
+        .quiz { margin-bottom: 10px; }
+        a { text-decoration: none; color: blue; margin-right: 10px; }
+        h2 { text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, Instructor</h2>
+        <a href="/create_quiz">Create New Quiz</a> | 
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <hr>
+        <h3>Your Quizzes</h3>
+        <p>Total Quizzes Found: {{ quizzes|length }}</p>
+
+        {% for quiz in quizzes %}
+            <div class="quiz">
+                <strong>{{ quiz.title }}</strong> (Code: {{ quiz.code }}) <br>
+                <a href="/edit_quiz/{{ quiz.id }}">Edit</a>
+                <a href="/delete_quiz/{{ quiz.id }}">Delete</a>
+                <a href="/view_results/{{ quiz.id }}">View Results</a>
+                <a href="/add_question/{{ quiz.id }}">Add Questions</a>
+                <a href="/view_questions/{{ quiz.id }}">View Questions</a>
+                 <!-- Student count -->
+        <p><strong>{{ quiz_counts[quiz.id] }}</strong> students finished this quiz</p>
+        
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

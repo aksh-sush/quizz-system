@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Question</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+        form { background: white; padding: 20px; border-radius: 8px; width: 500px; margin: auto; }
+    </style>
+</head>
+<body>
+    <h2>Add Question</h2>
+    <form method="post" enctype="multipart/form-data">
+        Question: <input type="text" name="question" required><br>
+        Option A: <input type="text" name="a" required><br>
+        Option B: <input type="text" name="b" required><br>
+        Option C: <input type="text" name="c" required><br>
+        Option D: <input type="text" name="d" required><br>
+        Correct Option: <input type="text" name="correct" required><br>
+        Image (optional): <input type="file" name="image"><br><br>
+        <input type="submit" value="Add Question">
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .quiz-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ccc;
+        }
+        .quiz-card.taken {
+            background-color: #e0e0e0;
+            color: #888;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+        .quiz-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .quiz-code {
+            color: #555;
+        }
+    </style>
+</head>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .quiz-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ccc;
+        }
+        .quiz-card.taken {
+    background-color: #ccc;  /* greyed out */
+    pointer-events: none;    /* optional: prevent clicking */
+    opacity: 0.6;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, Student</h2>
+        <h3>Available Quizzes</h3>
+        {% if quizzes %}
+            {% for quiz in quizzes %}
+                <div class="quiz-card {% if quiz[0] in taken_quiz_ids %}taken{% endif %}">
+                    <strong>{{ quiz.title }}</strong> (Code: {{ quiz.code }}) <br>
+                    <h3>{{ quiz[1] }}</h3>  <!-- title -->
+                    <p>Quiz ID: {{ quiz[0] }}</p>  <!-- id -->
+                    <p>Code: {{ quiz[2] }}</p>  <!-- code -->
+                    {% if quiz[0] in taken_quiz_ids %}
+                        <p style="font-style: italic;">Already taken</p>
+                    {% else %}
+                        <p style="font-style: italic;">
+                            <a href="{{ url_for('take_quiz', quiz_id=quiz[0]) }}" style="text-decoration: none; color: inherit;">
+                                Click to take this quiz
+                            </a>
+                        </p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No quizzes available at the moment.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+</html>
