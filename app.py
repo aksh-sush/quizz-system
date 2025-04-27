@@ -304,6 +304,7 @@ def create_taken_quizzes_table():
 
     conn.commit()
     conn.close()
+    
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
     if 'user_id' not in session or session['role'] != 'student':
@@ -336,53 +337,31 @@ def submit_quiz():
     conn.commit()
     conn.close()
 
-    return redirect('/quiz_submission_success')
-@app.route('/view_results/<int:quiz_id>')
+    return redirect('/quiz_submission_success')@app.route('/view_results/<int:quiz_id>')
+
+
 def view_results(quiz_id):
     conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
+    conn.row_factory = sqlite3.Row  # This ensures rows are returned as dictionaries
     cur = conn.cursor()
 
-    # Fetch quiz details
-    cur.execute("SELECT title FROM quizzes WHERE id = ?", (quiz_id,))
-    quiz = cur.fetchone()
-    quiz_title = quiz['title']
-
-    # Fetch all student answers for this quiz
+    # Query to get quiz results, including student username, quiz title, and the correct count
     cur.execute("""
-        SELECT sa.submission_id, sa.student_id, sa.answer AS student_answer, 
-               q.correct AS correct_answer, q.question
+        SELECT 
+            sa.quiz_id, 
+            s.username AS student_username, 
+            sa.correct_count, 
+            q.title AS quiz_title 
         FROM student_answers sa
-        JOIN questions q ON sa.question_id = q.id
+        JOIN students s ON sa.student_username = s.username
+        JOIN quizzes q ON sa.quiz_id = q.id
         WHERE sa.quiz_id = ?
     """, (quiz_id,))
-    answers = cur.fetchall()
 
-    # Organize results by student
-    results = {}
-    for answer in answers:
-        student_id = answer['student_id']
-        if student_id not in results:
-            results[student_id] = {'correct': 0, 'total': 0, 'answers': []}
-
-        correct = "Correct" if answer['student_answer'] == answer['correct_answer'] else "Incorrect"
-        if correct == "Correct":
-            results[student_id]['correct'] += 1
-        
-        results[student_id]['total'] += 1
-        results[student_id]['answers'].append({
-            'question': answer['question'],
-            'student_answer': answer['student_answer'],
-            'correct_answer': answer['correct_answer'],
-            'is_correct': correct
-        })
-
+    student_answers = cur.fetchall()
     conn.close()
 
-    return render_template('view_results.html', quiz_title=quiz_title, results=results)
-
-'''================================================================================================================================='''
-
+    return render_template('view_results.html', student_answers=student_answers)
 
 if __name__ == '__main__':
     app.run(debug=True)
